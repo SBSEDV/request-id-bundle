@@ -1,0 +1,9 @@
+parameters:
+  reportUnmatchedIgnoredErrors: false
+  checkMissingIterableValueType: false
+
+  paths:
+    - src
+
+  excludePaths:
+    - src/Resources/views/*
