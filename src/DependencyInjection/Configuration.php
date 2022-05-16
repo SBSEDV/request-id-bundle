@@ -23,10 +23,16 @@ class Configuration implements ConfigurationInterface
                     ->cannotBeEmpty()
                 ->end()
 
-                ->scalarNode('http_header')
+                ->scalarNode('outgoing_http_header')
                     ->treatFalseLike(null)
                     ->info('The HTTP-Header name which will be added to every response with the RequestId as value.')
                     ->defaultValue('x-request-id')
+                ->end()
+
+                ->scalarNode('incoming_http_header')
+                    ->treatFalseLike(null)
+                    ->info('The incoming HTTP-Header name that contains the RequestId to use.')
+                    ->defaultNull()
                 ->end()
 
                 ->scalarNode('prefix')

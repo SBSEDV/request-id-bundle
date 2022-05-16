@@ -55,12 +55,13 @@ class SBSEDVRequestIdExtension extends Extension implements PrependExtensionInte
 
         $container->setAlias(RequestIdProviderInterface::class, $config['provider']);
 
-        if (\is_string($config['http_header'])) {
+        if (\is_string($config['outgoing_http_header'] ?? null) || \is_string($config['incoming_http_header'] ?? null)) {
             $container
                 ->setDefinition('sbsedv_request_id.event_listener.http_header', new Definition(HttpHeaderEventListener::class))
                 ->setArguments([
                     '$requestIdProvider' => new Reference(RequestIdProviderInterface::class),
-                    '$headerName' => $config['http_header'],
+                    '$incomingHeaderName' => $config['incoming_http_header'],
+                    '$outgoingHeaderName' => $config['outgoing_http_header'],
                 ])
                 ->addTag('kernel.event_subscriber')
             ;

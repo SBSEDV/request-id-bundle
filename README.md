@@ -18,8 +18,11 @@ sbsedv_request_id:
 
     id_prefix: "" # Prefix that is used by built in providers.
 
-    http_header: "x-request-id" # http header that will be added
-    # http_header: false # disables the header creation
+    outgoing_http_header: "x-request-id" # http header that will be added
+    # outgoing_http_header: false # disables the header creation
+
+    incoming_http_header: false # disabled
+    # incoming_http_header: "x-request-id" # request header that contains the Request-ID to use
 
     default_provider:
         length: 16 # How many characters should be used by the default provider

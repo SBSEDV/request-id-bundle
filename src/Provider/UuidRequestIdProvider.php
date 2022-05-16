@@ -7,12 +7,11 @@ use Symfony\Contracts\Service\ResetInterface;
 
 class UuidRequestIdProvider implements RequestIdProviderInterface, ResetInterface
 {
-    private string $requestId;
+    private ?string $requestId = null;
 
     public function __construct(
         private string $prefix = ''
     ) {
-        $this->reset();
     }
 
     /**
@@ -20,6 +19,10 @@ class UuidRequestIdProvider implements RequestIdProviderInterface, ResetInterfac
      */
     public function getCurrentRequestId(): string
     {
+        if (null === $this->requestId) {
+            $this->reset();
+        }
+
         return $this->requestId;
     }
 
@@ -29,5 +32,13 @@ class UuidRequestIdProvider implements RequestIdProviderInterface, ResetInterfac
     public function reset(): void
     {
         $this->requestId = $this->prefix.(string) Uuid::v6();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setRequestId(string $requestId): void
+    {
+        $this->requestId = $requestId;
     }
 }
