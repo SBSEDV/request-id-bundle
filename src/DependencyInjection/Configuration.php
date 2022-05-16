@@ -56,7 +56,7 @@ class Configuration implements ConfigurationInterface
                         ->booleanNode('enabled')->defaultTrue()->end()
                         ->scalarNode('key')
                             ->info('Array key to which the request id will be set.')
-                            ->defaultValue('uid')
+                            ->defaultValue('request_id')
                             ->cannotBeEmpty()
                         ->end()
                     ->end()

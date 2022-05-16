@@ -62,6 +62,6 @@ If your application has the [symfony/monolog-bundle](https://github.com/symfony/
 
 sbsedv_request_id:
     monolog_processor:
-        key: "uid" # Key to which the request id will be set
+        key: "request_id" # Key to which the request id will be set
     # monolog_processor: false # disables the processor
 ```
