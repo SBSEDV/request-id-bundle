@@ -3,7 +3,7 @@
 namespace SBSEDV\Bundle\RequestIdBundle\EventListener;
 
 use SBSEDV\Bundle\RequestIdBundle\Provider\RequestIdProviderInterface;
-use SBSEDV\Bundle\RequestIdBundle\TrustStrategy\IncomingRequestIdStrategyInterface;
+use SBSEDV\Bundle\RequestIdBundle\TrustStrategy\RequestIdTrustVerifierInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
 use Symfony\Component\HttpKernel\Event\ResponseEvent;
@@ -13,7 +13,7 @@ final class IncomingHttpHeaderEventListener implements EventSubscriberInterface
     public function __construct(
         private RequestIdProviderInterface $requestIdProvider,
         private string $headerName,
-        private IncomingRequestIdStrategyInterface $incomingRequestIdStrategy
+        private RequestIdTrustVerifierInterface $incomingRequestIdStrategy
     ) {
     }
 

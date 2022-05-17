@@ -5,7 +5,7 @@ namespace SBSEDV\Bundle\RequestIdBundle\TrustStrategy;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\Request;
 
-class HashHmacRequestIdStrategy implements IncomingRequestIdStrategyInterface
+class HashHmacRequestIdStrategy implements RequestIdTrustVerifierInterface
 {
     public function __construct(
         private string $key,

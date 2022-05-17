@@ -4,7 +4,7 @@ namespace SBSEDV\Bundle\RequestIdBundle\TrustStrategy;
 
 use Symfony\Component\HttpFoundation\Request;
 
-class UntrustedIncomingRequestIdStrategy implements IncomingRequestIdStrategyInterface
+class UntrustedIncomingRequestIdStrategy implements RequestIdTrustVerifierInterface
 {
     /**
      * {@inheritdoc}

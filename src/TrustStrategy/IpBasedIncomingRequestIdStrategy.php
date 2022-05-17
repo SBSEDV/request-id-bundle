@@ -5,7 +5,7 @@ namespace SBSEDV\Bundle\RequestIdBundle\TrustStrategy;
 use Symfony\Component\HttpFoundation\IpUtils;
 use Symfony\Component\HttpFoundation\Request;
 
-class IpBasedIncomingRequestIdStrategy implements IncomingRequestIdStrategyInterface
+class IpBasedIncomingRequestIdStrategy implements RequestIdTrustVerifierInterface
 {
     /**
      * @param string|string[] $trustedIps
