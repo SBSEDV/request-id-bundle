@@ -33,10 +33,6 @@ class HttpClientRequestIdLogger implements HttpClientInterface
 
                 foreach ($this->headerNames as $headerName) {
                     if (\array_key_exists($headerName, $headers)) {
-                        if (\is_string($headers[$headerName])) {
-                            $headers[$headerName] = [$headers[$headerName]];
-                        }
-
                         foreach ($headers[$headerName] as $header) {
                             $info = $asyncContext->getInfo();
 
