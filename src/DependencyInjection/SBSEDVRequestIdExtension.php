@@ -8,6 +8,7 @@ use SBSEDV\Bundle\RequestIdBundle\Monolog\RequestIdLogProcessor;
 use SBSEDV\Bundle\RequestIdBundle\Provider\RequestIdProvider;
 use SBSEDV\Bundle\RequestIdBundle\Provider\RequestIdProviderInterface;
 use SBSEDV\Bundle\RequestIdBundle\Provider\UuidRequestIdProvider;
+use SBSEDV\Bundle\RequestIdBundle\TrustStrategy\HashHmacRequestIdStrategy;
 use SBSEDV\Bundle\RequestIdBundle\TrustStrategy\TrustedIncomingRequestIdStrategy;
 use SBSEDV\Bundle\RequestIdBundle\TrustStrategy\UntrustedRequestIdStrategy;
 use SBSEDV\Bundle\RequestIdBundle\Twig\Extension\RequestIdExtension;
@@ -149,8 +150,16 @@ class SBSEDVRequestIdExtension extends Extension implements PrependExtensionInte
         $container
             ->setDefinition('sbsedv_request_id.incoming_trust_strategies.untrusted', new Definition(UntrustedRequestIdStrategy::class))
         ;
-            ;
-        }
+
+        $container
+            ->setDefinition('sbsedv_request_id.trust_strategies.hash_hmac', new Definition(HashHmacRequestIdStrategy::class))
+            ->setArguments([
+                '$key' => $config['hash_hmac_trust_strategy']['key'],
+                '$algorithm' => $config['hash_hmac_trust_strategy']['algorithm'],
+                '$headerName' => $config['hash_hmac_trust_strategy']['http_header'],
+                '$logger' => new Reference('logger'),
+            ])
+        ;
     }
 
     /**
