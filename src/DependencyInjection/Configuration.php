@@ -53,7 +53,7 @@ class Configuration implements ConfigurationInterface
                     ->end()
                 ->end()
 
-                ->booleanNode('twig_error_template')->defaultFalse()->end()
+                ->booleanNode('twig_error_template')->defaultTrue()->end()
                 ->scalarNode('twig_function_name')
                     ->info('Name of the registered twig function.')
                     ->defaultValue('request_id')
