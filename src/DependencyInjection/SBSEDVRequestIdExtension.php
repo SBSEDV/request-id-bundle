@@ -175,29 +175,28 @@ class SBSEDVRequestIdExtension extends Extension implements PrependExtensionInte
      */
     public function prepend(ContainerBuilder $container): void
     {
-        if (!$container->hasExtension('twig')) {
-            return;
-        }
+        // process the configuration
+        $configs = $container->getExtensionConfig($this->getAlias());
 
-        $configs = $container->getExtensionConfig('sbsedv_request_id');
+        // resolve config parameters e.g. %kernel.debug% to its boolean value
+        $resolvingBag = $container->getParameterBag();
+        $configs = $resolvingBag->resolveValue($configs);
 
-        $isEnabled = true;
-        foreach ($configs as $config) {
-            if (\array_key_exists('twig_error_template', $config)) {
-                $isEnabled = (bool) $config['twig_error_template'];
+        // use the Configuration class to generate a config array
+        $config = $this->processConfiguration(new Configuration(), $configs);
+
+        $bundles = $container->getParameter('kernel.bundles');
+
+        if (\in_array(TwigBundle::class, $bundles, true)) {
+            if ($config['twig_error_template'] === true) {
+                $thirdPartyBundlesViewFileLocator = (new FileLocator(__DIR__.'/../Resources/views/bundles'));
+
+                $container->loadFromExtension('twig', [
+                    'paths' => [
+                        $thirdPartyBundlesViewFileLocator->locate('TwigBundle') => 'Twig', // @phpstan-ignore-line
+                    ],
+                ]);
             }
         }
-
-        if (!$isEnabled) {
-            return;
-        }
-
-        $thirdPartyBundlesViewFileLocator = (new FileLocator(__DIR__.'/../Resources/views/bundles'));
-
-        $container->loadFromExtension('twig', [
-            'paths' => [
-                $thirdPartyBundlesViewFileLocator->locate('TwigBundle') => 'Twig', // @phpstan-ignore-line
-            ],
-        ]);
     }
 }
