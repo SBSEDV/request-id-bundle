@@ -8,7 +8,6 @@ use SBSEDV\Bundle\RequestIdBundle\Monolog\RequestIdLogProcessor;
 use SBSEDV\Bundle\RequestIdBundle\Provider\RequestIdProvider;
 use SBSEDV\Bundle\RequestIdBundle\Provider\RequestIdProviderInterface;
 use SBSEDV\Bundle\RequestIdBundle\Provider\UuidRequestIdProvider;
-use SBSEDV\Bundle\RequestIdBundle\TrustStrategy\HashHmacRequestIdStrategy;
 use SBSEDV\Bundle\RequestIdBundle\TrustStrategy\IpBasedIncomingRequestIdStrategy;
 use SBSEDV\Bundle\RequestIdBundle\TrustStrategy\TrustedIncomingRequestIdStrategy;
 use SBSEDV\Bundle\RequestIdBundle\TrustStrategy\UntrustedRequestIdStrategy;
@@ -143,29 +142,19 @@ class SBSEDVRequestIdExtension extends Extension implements PrependExtensionInte
     private function configureRequestIdTrustStrategies(ContainerBuilder $container, array $config): void
     {
         $container
-            ->setDefinition('sbsedv_request_id.incoming_trust_strategies.trusted', new Definition(TrustedIncomingRequestIdStrategy::class))
+            ->setDefinition('sbsedv_request_id.trust_strategy.trusted', new Definition(TrustedIncomingRequestIdStrategy::class))
         ;
+
         $container
-            ->setDefinition('sbsedv_request_id.incoming_trust_strategies.untrusted', new Definition(UntrustedRequestIdStrategy::class))
+            ->setDefinition('sbsedv_request_id.trust_strategy.untrusted', new Definition(UntrustedRequestIdStrategy::class))
         ;
+
         $container
-            ->setDefinition('sbsedv_request_id.incoming_trust_strategies.ip_based', new Definition(IpBasedIncomingRequestIdStrategy::class))
+            ->setDefinition('sbsedv_request_id.trust_strategy.ip_based', new Definition(IpBasedIncomingRequestIdStrategy::class))
             ->setArguments([
                 '$trustedIps' => $config['ip_trust_strategy']['trusted_ips'],
             ])
         ;
-
-        $container
-            ->setDefinition('sbsedv_request_id.trust_strategies.hash_hmac', new Definition(HashHmacRequestIdStrategy::class))
-            ->setArguments([
-                '$key' => $config['hash_hmac_trust_strategy']['key'],
-                '$algorithm' => $config['hash_hmac_trust_strategy']['algorithm'],
-                '$headerName' => $config['hash_hmac_trust_strategy']['http_header'],
-                '$logger' => new Reference('logger'),
-            ])
-        ;
-
-        $container->setAlias(HashHmacRequestIdStrategy::class, 'sbsedv_request_id.trust_strategies.hash_hmac');
     }
 
     /**
