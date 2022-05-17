@@ -48,7 +48,6 @@ class SBSEDVRequestIdExtension extends Extension implements PrependExtensionInte
                     ->setDefinition('sbsedv_request_id.provider.default', new Definition(RequestIdProvider::class))
                     ->setArguments([
                         '$length' => $config['default_provider']['id_length'],
-                        '$prefix' => $config['prefix'],
                     ])
                     ->addTag('kernel.reset', ['method' => 'reset'])
                     ->setPublic(true)
@@ -58,9 +57,6 @@ class SBSEDVRequestIdExtension extends Extension implements PrependExtensionInte
             case 'sbsedv_request_id.provider.uuid':
                 $container
                     ->setDefinition('sbsedv_request_id.provider.uuid', new Definition(UuidRequestIdProvider::class))
-                    ->setArguments([
-                        '$prefix' => $config['prefix'],
-                    ])
                     ->addTag('kernel.reset', ['method' => 'reset'])
                 ;
                 break;

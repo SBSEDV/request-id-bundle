@@ -11,8 +11,7 @@ class RequestIdProvider implements RequestIdProviderInterface, ResetInterface
     private ?string $requestId = null;
 
     public function __construct(
-        private int $length = self::DEFAULT_LENGTH,
-        private string $prefix = ''
+        private int $length = self::DEFAULT_LENGTH
     ) {
     }
 
@@ -33,7 +32,7 @@ class RequestIdProvider implements RequestIdProviderInterface, ResetInterface
      */
     public function reset(): void
     {
-        $this->requestId = $this->prefix.\substr(\bin2hex(\random_bytes((int) \ceil($this->length / 2))), 0, $this->length); // @phpstan-ignore-line
+        $this->requestId = \substr(\bin2hex(\random_bytes((int) \ceil($this->length / 2))), 0, $this->length); // @phpstan-ignore-line
     }
 
     /**

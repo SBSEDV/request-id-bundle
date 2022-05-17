@@ -16,8 +16,6 @@ sbsedv_request_id:
     # provider: 'sbsedv_request_id.provider.uuid'
     # provider: 'your_custom_service_id' (must implement Provider\RequestIdProviderInterface)
 
-    id_prefix: "" # Prefix that is used by built in providers.
-
     outgoing_http_header: "x-request-id" # http header that will be added
     # outgoing_http_header: false # disables the header creation
 

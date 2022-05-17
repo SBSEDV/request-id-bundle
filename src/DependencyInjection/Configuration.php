@@ -65,11 +65,6 @@ class Configuration implements ConfigurationInterface
                     ->end()
                 ->end()
 
-                ->scalarNode('prefix')
-                    ->defaultValue('')
-                    ->info('Prefix that all built-in providers will use for id generation.')
-                ->end()
-
                 ->arrayNode('default_provider')
                     ->addDefaultsIfNotSet()
                     ->children()

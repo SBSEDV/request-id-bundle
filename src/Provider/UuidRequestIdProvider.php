@@ -9,11 +9,6 @@ class UuidRequestIdProvider implements RequestIdProviderInterface, ResetInterfac
 {
     private ?string $requestId = null;
 
-    public function __construct(
-        private string $prefix = ''
-    ) {
-    }
-
     /**
      * {@inheritDoc}
      */
@@ -31,7 +26,7 @@ class UuidRequestIdProvider implements RequestIdProviderInterface, ResetInterfac
      */
     public function reset(): void
     {
-        $this->requestId = $this->prefix.(string) Uuid::v6();
+        $this->requestId = (string) Uuid::v6();
     }
 
     /**
