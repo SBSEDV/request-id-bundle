@@ -3,7 +3,7 @@
 namespace SBSEDV\Bundle\RequestIdBundle\EventListener;
 
 use SBSEDV\Bundle\RequestIdBundle\Provider\RequestIdProviderInterface;
-use SBSEDV\Bundle\RequestIdBundle\TrustStrategy\RequestIdTrustVerifierInterface;
+use SBSEDV\Bundle\RequestIdBundle\TrustStrategy\TrustStrategyInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
 use Symfony\Component\HttpKernel\Event\ResponseEvent;
@@ -13,7 +13,7 @@ final class IncomingHttpHeaderEventListener implements EventSubscriberInterface
     public function __construct(
         private RequestIdProviderInterface $requestIdProvider,
         private string $headerName,
-        private RequestIdTrustVerifierInterface $incomingRequestIdStrategy
+        private TrustStrategyInterface $trustStrategy
     ) {
     }
 
@@ -33,7 +33,7 @@ final class IncomingHttpHeaderEventListener implements EventSubscriberInterface
             return;
         }
 
-        if (!$this->incomingRequestIdStrategy->isTrustedRequestId($requestId, $event->getRequest())) {
+        if (!$this->trustStrategy->isTrustedRequestId($requestId, $event->getRequest())) {
             return;
         }
 

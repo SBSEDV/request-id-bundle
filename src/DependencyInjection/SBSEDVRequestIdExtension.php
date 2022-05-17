@@ -79,7 +79,7 @@ class SBSEDVRequestIdExtension extends Extension implements PrependExtensionInte
             ->setArguments([
                 '$requestIdProvider' => new Reference(RequestIdProviderInterface::class),
                 '$headerName' => $config['incoming_http_header'],
-                '$incomingRequestIdStrategy' => new Reference($config['trust_incoming_http_header']),
+                '$trustStrategy' => new Reference($config['trust_incoming_http_header']),
             ])
             ->addTag('kernel.event_subscriber')
         ;
@@ -164,6 +164,8 @@ class SBSEDVRequestIdExtension extends Extension implements PrependExtensionInte
                 '$logger' => new Reference('logger'),
             ])
         ;
+
+        $container->setAlias(HashHmacRequestIdStrategy::class, 'sbsedv_request_id.trust_strategies.hash_hmac');
     }
 
     /**

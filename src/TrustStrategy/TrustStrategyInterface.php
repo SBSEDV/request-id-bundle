@@ -4,7 +4,7 @@ namespace SBSEDV\Bundle\RequestIdBundle\TrustStrategy;
 
 use Symfony\Component\HttpFoundation\Request;
 
-interface RequestIdTrustVerifierInterface
+interface TrustStrategyInterface
 {
     /**
      * Whether the incoming Request-ID is trusted and should be used.
