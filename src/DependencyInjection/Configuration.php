@@ -3,6 +3,8 @@
 namespace SBSEDV\Bundle\RequestIdBundle\DependencyInjection;
 
 use SBSEDV\Bundle\RequestIdBundle\Provider\RequestIdProvider;
+use SBSEDV\Bundle\RequestIdBundle\TrustStrategy\TrustedIncomingRequestIdStrategy;
+use SBSEDV\Bundle\RequestIdBundle\TrustStrategy\UntrustedIncomingRequestIdStrategy;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
 
@@ -37,10 +39,10 @@ class Configuration implements ConfigurationInterface
 
                 ->scalarNode('trust_incoming_http_header')
                     ->info('The strategy used to determine whether to trust the incoming HTTP-Header.')
-                    ->treatTrueLike('sbsedv_request_id.trust_strategy.trusted')
-                    ->treatFalseLike('sbsedv_request_id.trust_strategy.untrusted')
-                    ->treatNullLike('sbsedv_request_id.trust_strategy.untrusted')
-                    ->defaultValue('sbsedv_request_id.trust_strategy.untrusted')
+                    ->treatTrueLike(TrustedIncomingRequestIdStrategy::class)
+                    ->treatFalseLike(UntrustedIncomingRequestIdStrategy::class)
+                    ->treatNullLike(UntrustedIncomingRequestIdStrategy::class)
+                    ->defaultValue(UntrustedIncomingRequestIdStrategy::class)
                     ->cannotBeEmpty()
                 ->end()
 

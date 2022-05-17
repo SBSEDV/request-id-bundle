@@ -10,7 +10,7 @@ use SBSEDV\Bundle\RequestIdBundle\Provider\RequestIdProviderInterface;
 use SBSEDV\Bundle\RequestIdBundle\Provider\UuidRequestIdProvider;
 use SBSEDV\Bundle\RequestIdBundle\TrustStrategy\IpBasedIncomingRequestIdStrategy;
 use SBSEDV\Bundle\RequestIdBundle\TrustStrategy\TrustedIncomingRequestIdStrategy;
-use SBSEDV\Bundle\RequestIdBundle\TrustStrategy\UntrustedRequestIdStrategy;
+use SBSEDV\Bundle\RequestIdBundle\TrustStrategy\UntrustedIncomingRequestIdStrategy;
 use SBSEDV\Bundle\RequestIdBundle\Twig\Extension\RequestIdExtension;
 use Symfony\Bundle\MonologBundle\MonologBundle;
 use Symfony\Bundle\TwigBundle\TwigBundle;
@@ -142,15 +142,15 @@ class SBSEDVRequestIdExtension extends Extension implements PrependExtensionInte
     private function configureRequestIdTrustStrategies(ContainerBuilder $container, array $config): void
     {
         $container
-            ->setDefinition('sbsedv_request_id.trust_strategy.trusted', new Definition(TrustedIncomingRequestIdStrategy::class))
+            ->setDefinition(TrustedIncomingRequestIdStrategy::class, new Definition(TrustedIncomingRequestIdStrategy::class))
         ;
 
         $container
-            ->setDefinition('sbsedv_request_id.trust_strategy.untrusted', new Definition(UntrustedRequestIdStrategy::class))
+            ->setDefinition(UntrustedIncomingRequestIdStrategy::class, new Definition(UntrustedIncomingRequestIdStrategy::class))
         ;
 
         $container
-            ->setDefinition('sbsedv_request_id.trust_strategy.ip_based', new Definition(IpBasedIncomingRequestIdStrategy::class))
+            ->setDefinition(IpBasedIncomingRequestIdStrategy::class, new Definition(IpBasedIncomingRequestIdStrategy::class))
             ->setArguments([
                 '$trustedIps' => $config['ip_trust_strategy']['trusted_ips'],
             ])
