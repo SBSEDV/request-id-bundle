@@ -26,7 +26,7 @@ class UuidRequestIdProvider implements RequestIdProviderInterface, ResetInterfac
      */
     public function reset(): void
     {
-        $this->requestId = (string) Uuid::v6();
+        $this->requestId = (string) Uuid::v4();
     }
 
     /**
