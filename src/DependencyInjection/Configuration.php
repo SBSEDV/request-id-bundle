@@ -3,8 +3,8 @@
 namespace SBSEDV\Bundle\RequestIdBundle\DependencyInjection;
 
 use SBSEDV\Bundle\RequestIdBundle\Provider\RequestIdProvider;
-use SBSEDV\Bundle\RequestIdBundle\TrustStrategy\TrueTrustStrategy;
 use SBSEDV\Bundle\RequestIdBundle\TrustStrategy\FalseTrustStrategy;
+use SBSEDV\Bundle\RequestIdBundle\TrustStrategy\TrueTrustStrategy;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
 
@@ -53,7 +53,7 @@ class Configuration implements ConfigurationInterface
                     ->end()
                 ->end()
 
-                ->booleanNode('twig_error_template')->defaultTrue()->end()
+                ->booleanNode('twig_error_template')->defaultFalse()->end()
                 ->scalarNode('twig_function_name')
                     ->info('Name of the registered twig function.')
                     ->defaultValue('request_id')
