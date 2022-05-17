@@ -26,6 +26,6 @@ class IpBasedIncomingRequestIdStrategy implements RequestIdTrustVerifierInterfac
             return false;
         }
 
-        return IpUtils::checkIp($clientIp, $this->trustedIps);
+        return $request->isFromTrustedProxy() || IpUtils::checkIp($clientIp, $this->trustedIps);
     }
 }
