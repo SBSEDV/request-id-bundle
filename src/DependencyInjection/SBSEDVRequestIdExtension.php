@@ -131,6 +131,7 @@ class SBSEDVRequestIdExtension extends Extension implements PrependExtensionInte
             ->setDefinition('sbsedv_request_id.twig_extension', new Definition(RequestIdExtension::class))
             ->setArguments([
                 '$requestIdProvider' => new Reference(RequestIdProviderInterface::class),
+                '$functionName' => $config['twig_function_name'],
             ])
             ->addTag('twig.extension')
         ;

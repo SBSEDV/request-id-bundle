@@ -47,6 +47,7 @@ This is used by prepending the TwigExtension and setting the `@TwigBundle/Except
 
 sbsedv_request_id:
     twig_error_template: true
+    twig_function_name: "request_id"
 ```
 
 ---

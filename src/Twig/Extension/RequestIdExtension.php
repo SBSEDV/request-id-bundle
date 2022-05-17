@@ -9,7 +9,8 @@ use Twig\TwigFunction;
 class RequestIdExtension extends AbstractExtension
 {
     public function __construct(
-        private RequestIdProviderInterface $requestIdProvider
+        private RequestIdProviderInterface $requestIdProvider,
+        private string $functionName
     ) {
     }
 
@@ -19,7 +20,7 @@ class RequestIdExtension extends AbstractExtension
     public function getFunctions(): array
     {
         return [
-            new TwigFunction('request_id', $this->requestIdProvider->getCurrentRequestId(...)),
+            new TwigFunction($this->functionName, $this->requestIdProvider->getCurrentRequestId(...)),
         ];
     }
 }

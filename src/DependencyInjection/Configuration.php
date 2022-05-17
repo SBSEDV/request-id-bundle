@@ -73,6 +73,11 @@ class Configuration implements ConfigurationInterface
                 ->end()
 
                 ->booleanNode('twig_error_template')->defaultTrue()->end()
+                ->scalarNode('twig_function_name')
+                    ->info('Name of the registered twig function.')
+                    ->defaultValue('request_id')
+                    ->cannotBeEmpty()
+                ->end()
 
                 ->arrayNode('monolog_processor')
                     ->treatFalseLike(['enabled' => false])
