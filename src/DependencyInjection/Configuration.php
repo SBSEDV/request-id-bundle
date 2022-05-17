@@ -21,7 +21,7 @@ class Configuration implements ConfigurationInterface
             ->children()
                 ->scalarNode('provider')
                     ->info('The service ID of the RequestId provider.')
-                    ->defaultValue('sbsedv_request_id.provider.default')
+                    ->defaultValue(RequestIdProvider::class)
                     ->cannotBeEmpty()
                 ->end()
 

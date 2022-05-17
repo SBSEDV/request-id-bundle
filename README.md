@@ -12,8 +12,8 @@ The generic configuration is as follows:
 # config/packages/sbsedv_request_id.yaml
 
 sbsedv_request_id:
-    provider: "sbsedv_request_id.provider.default"
-    # provider: 'sbsedv_request_id.provider.uuid'
+    provider: "SBSEDV\Bundle\RequestIdBundle\Provider\RequestIdProvider"
+    # provider: SBSEDV\Bundle\RequestIdBundle\Provider\UuidRequestIdProvider'
     # provider: 'your_custom_service_id' (must implement Provider\RequestIdProviderInterface)
 
     outgoing_http_header: "x-request-id" # http header that will be added

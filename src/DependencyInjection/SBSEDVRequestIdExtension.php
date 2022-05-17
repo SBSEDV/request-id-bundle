@@ -8,8 +8,8 @@ use SBSEDV\Bundle\RequestIdBundle\Monolog\RequestIdLogProcessor;
 use SBSEDV\Bundle\RequestIdBundle\Provider\RequestIdProvider;
 use SBSEDV\Bundle\RequestIdBundle\Provider\RequestIdProviderInterface;
 use SBSEDV\Bundle\RequestIdBundle\Provider\UuidRequestIdProvider;
-use SBSEDV\Bundle\RequestIdBundle\TrustStrategy\TrueTrustStrategy;
 use SBSEDV\Bundle\RequestIdBundle\TrustStrategy\FalseTrustStrategy;
+use SBSEDV\Bundle\RequestIdBundle\TrustStrategy\TrueTrustStrategy;
 use SBSEDV\Bundle\RequestIdBundle\Twig\Extension\RequestIdExtension;
 use Symfony\Bundle\MonologBundle\MonologBundle;
 use Symfony\Bundle\TwigBundle\TwigBundle;
@@ -42,9 +42,9 @@ class SBSEDVRequestIdExtension extends Extension implements PrependExtensionInte
     private function configureProvider(ContainerBuilder $container, array $config): void
     {
         switch ($config['provider']) {
-            case 'sbsedv_request_id.provider.default':
+            case RequestIdProvider::class:
                 $container
-                    ->setDefinition('sbsedv_request_id.provider.default', new Definition(RequestIdProvider::class))
+                    ->setDefinition(RequestIdProvider::class, new Definition(RequestIdProvider::class))
                     ->setArguments([
                         '$length' => $config['default_provider']['id_length'],
                     ])
@@ -53,9 +53,9 @@ class SBSEDVRequestIdExtension extends Extension implements PrependExtensionInte
                 ;
                 break;
 
-            case 'sbsedv_request_id.provider.uuid':
+            case UuidRequestIdProvider::class:
                 $container
-                    ->setDefinition('sbsedv_request_id.provider.uuid', new Definition(UuidRequestIdProvider::class))
+                    ->setDefinition(UuidRequestIdProvider::class, new Definition(UuidRequestIdProvider::class))
                     ->addTag('kernel.reset', ['method' => 'reset'])
                 ;
                 break;
