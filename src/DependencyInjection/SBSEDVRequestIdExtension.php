@@ -8,8 +8,8 @@ use SBSEDV\Bundle\RequestIdBundle\Monolog\RequestIdLogProcessor;
 use SBSEDV\Bundle\RequestIdBundle\Provider\RequestIdProvider;
 use SBSEDV\Bundle\RequestIdBundle\Provider\RequestIdProviderInterface;
 use SBSEDV\Bundle\RequestIdBundle\Provider\UuidRequestIdProvider;
-use SBSEDV\Bundle\RequestIdBundle\TrustStrategy\TrustedIncomingRequestIdStrategy;
-use SBSEDV\Bundle\RequestIdBundle\TrustStrategy\UntrustedIncomingRequestIdStrategy;
+use SBSEDV\Bundle\RequestIdBundle\TrustStrategy\TrueTrustStrategy;
+use SBSEDV\Bundle\RequestIdBundle\TrustStrategy\FalseTrustStrategy;
 use SBSEDV\Bundle\RequestIdBundle\Twig\Extension\RequestIdExtension;
 use Symfony\Bundle\MonologBundle\MonologBundle;
 use Symfony\Bundle\TwigBundle\TwigBundle;
@@ -141,11 +141,11 @@ class SBSEDVRequestIdExtension extends Extension implements PrependExtensionInte
     private function configureRequestIdTrustStrategies(ContainerBuilder $container, array $config): void
     {
         $container
-            ->setDefinition(TrustedIncomingRequestIdStrategy::class, new Definition(TrustedIncomingRequestIdStrategy::class))
+            ->setDefinition(TrueTrustStrategy::class, new Definition(TrueTrustStrategy::class))
         ;
 
         $container
-            ->setDefinition(UntrustedIncomingRequestIdStrategy::class, new Definition(UntrustedIncomingRequestIdStrategy::class))
+            ->setDefinition(FalseTrustStrategy::class, new Definition(FalseTrustStrategy::class))
         ;
     }
 
