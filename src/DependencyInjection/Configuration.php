@@ -72,6 +72,20 @@ class Configuration implements ConfigurationInterface
                         ->end()
                     ->end()
                 ->end()
+
+                ->arrayNode('http_client')
+                    ->treatFalseLike(['enabled' => false])
+                    ->addDefaultsIfNotSet()
+                    ->children()
+                        ->booleanNode('enabled')->defaultTrue()->end()
+                        ->arrayNode('header_names')
+                            ->info('The names of the http-headers that should be logged.')
+                            ->scalarPrototype()
+                                ->defaultValue(['x-request-id'])
+                            ->end()
+                        ->end()
+                    ->end()
+                ->end()
             ->end()
         ;
 

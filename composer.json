@@ -23,6 +23,7 @@
         "phpstan/phpstan": "^1.4",
         "phpstan/phpstan-symfony": "^1.1",
         "symfony/monolog-bundle": "^3.6",
+        "symfony/http-client": "^6.0",
         "symfony/twig-bundle": "^6.0",
         "symfony/uid": "^6.0",
         "twig/twig": "^3.3"

@@ -4,6 +4,7 @@ namespace SBSEDV\Bundle\RequestIdBundle\DependencyInjection;
 
 use SBSEDV\Bundle\RequestIdBundle\EventListener\IncomingHttpHeaderEventListener;
 use SBSEDV\Bundle\RequestIdBundle\EventListener\OutgoingHttpHeaderEventListener;
+use SBSEDV\Bundle\RequestIdBundle\HttpClient\HttpClientRequestIdLogger;
 use SBSEDV\Bundle\RequestIdBundle\Monolog\RequestIdLogProcessor;
 use SBSEDV\Bundle\RequestIdBundle\Provider\RequestIdProvider;
 use SBSEDV\Bundle\RequestIdBundle\Provider\RequestIdProviderInterface;
@@ -33,7 +34,8 @@ class SBSEDVRequestIdExtension extends Extension implements PrependExtensionInte
         $this->configureEventSubscriber($container, $config);
         $this->configureMonologProcessor($container, $config);
         $this->configureTwigExtension($container, $config);
-        $this->configureRequestIdTrustStrategies($container, $config);
+        $this->configureTrustStrategies($container, $config);
+        $this->configureHttpClient($container, $config);
     }
 
     /**
@@ -138,7 +140,7 @@ class SBSEDVRequestIdExtension extends Extension implements PrependExtensionInte
     /**
      * Configure the various incoming request ids trust resolvers.
      */
-    private function configureRequestIdTrustStrategies(ContainerBuilder $container, array $config): void
+    private function configureTrustStrategies(ContainerBuilder $container, array $config): void
     {
         $container
             ->setDefinition(TrueTrustStrategy::class, new Definition(TrueTrustStrategy::class))
@@ -146,6 +148,25 @@ class SBSEDVRequestIdExtension extends Extension implements PrependExtensionInte
 
         $container
             ->setDefinition(FalseTrustStrategy::class, new Definition(FalseTrustStrategy::class))
+        ;
+    }
+
+    private function configureHttpClient(ContainerBuilder $container, array $config): void
+    {
+        if (!$config['http_client']['enabled']) {
+            return;
+        }
+
+        $container
+            ->setDefinition(HttpClientRequestIdLogger::class, new Definition(HttpClientRequestIdLogger::class))
+            ->setArguments([
+                '$client' => new Reference('.inner'),
+                '$logger' => new Reference('logger'),
+                '$headerNames' => $config['http_client']['header_names'],
+            ])
+            ->setDecoratedService('http_client')
+            ->addTag('http_client.client')
+            ->addTag('kernel.reset', ['method' => 'reset'])
         ;
     }
 
