@@ -12,18 +12,15 @@ The generic configuration is as follows:
 # config/packages/sbsedv_request_id.yaml
 
 sbsedv_request_id:
-    provider: "SBSEDV\Bundle\RequestIdBundle\Provider\RequestIdProvider"
-    # provider: SBSEDV\Bundle\RequestIdBundle\Provider\UuidRequestIdProvider'
-    # provider: 'your_custom_service_id' (must implement Provider\RequestIdProviderInterface)
+    generator: "SBSEDV\Bundle\RequestIdBundle\Generator\UuidRequestIdGenerator"
+    # generator: "SBSEDV\Bundle\RequestIdBundle\Generator\RequestIdGenerator"
+    # generator: 'your_custom_service_id' (must implement RequestIdGeneratorInterface)
 
     outgoing_http_header: "x-request-id" # http header that will be added
     # outgoing_http_header: false # disables the header creation
 
     incoming_http_header: false # disabled
     # incoming_http_header: "x-request-id" # request header that contains the Request-ID to use
-
-    default_provider:
-        length: 16 # How many characters should be used by the default provider
 ```
 
 ---

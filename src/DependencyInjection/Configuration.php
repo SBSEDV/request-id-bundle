@@ -2,7 +2,7 @@
 
 namespace SBSEDV\Bundle\RequestIdBundle\DependencyInjection;
 
-use SBSEDV\Bundle\RequestIdBundle\Provider\RequestIdProvider;
+use SBSEDV\Bundle\RequestIdBundle\Generator\UuidRequestIdGenerator;
 use SBSEDV\Bundle\RequestIdBundle\TrustStrategy\FalseTrustStrategy;
 use SBSEDV\Bundle\RequestIdBundle\TrustStrategy\TrueTrustStrategy;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
@@ -19,9 +19,9 @@ class Configuration implements ConfigurationInterface
 
         $treeBuilder->getRootNode() // @phpstan-ignore-line
             ->children()
-                ->scalarNode('provider')
-                    ->info('The service ID of the RequestId provider.')
-                    ->defaultValue(RequestIdProvider::class)
+                ->scalarNode('generator')
+                    ->info('The service ID of the Request-ID generator.')
+                    ->defaultValue(UuidRequestIdGenerator::class)
                     ->cannotBeEmpty()
                 ->end()
 
@@ -44,13 +44,6 @@ class Configuration implements ConfigurationInterface
                     ->treatNullLike(FalseTrustStrategy::class)
                     ->defaultValue(FalseTrustStrategy::class)
                     ->cannotBeEmpty()
-                ->end()
-
-                ->arrayNode('default_provider')
-                    ->addDefaultsIfNotSet()
-                    ->children()
-                        ->integerNode('id_length')->defaultValue(RequestIdProvider::DEFAULT_LENGTH)->end()
-                    ->end()
                 ->end()
 
                 ->booleanNode('twig_error_template')->defaultTrue()->end()

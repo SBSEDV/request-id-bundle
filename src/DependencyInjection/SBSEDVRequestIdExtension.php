@@ -4,11 +4,13 @@ namespace SBSEDV\Bundle\RequestIdBundle\DependencyInjection;
 
 use SBSEDV\Bundle\RequestIdBundle\EventListener\IncomingHttpHeaderEventListener;
 use SBSEDV\Bundle\RequestIdBundle\EventListener\OutgoingHttpHeaderEventListener;
+use SBSEDV\Bundle\RequestIdBundle\Generator\RequestIdGenerator;
+use SBSEDV\Bundle\RequestIdBundle\Generator\RequestIdGeneratorInterface;
+use SBSEDV\Bundle\RequestIdBundle\Generator\UuidRequestIdGenerator;
 use SBSEDV\Bundle\RequestIdBundle\HttpClient\HttpClientRequestIdLogger;
 use SBSEDV\Bundle\RequestIdBundle\Monolog\RequestIdLogProcessor;
 use SBSEDV\Bundle\RequestIdBundle\Provider\RequestIdProvider;
 use SBSEDV\Bundle\RequestIdBundle\Provider\RequestIdProviderInterface;
-use SBSEDV\Bundle\RequestIdBundle\Provider\UuidRequestIdProvider;
 use SBSEDV\Bundle\RequestIdBundle\TrustStrategy\FalseTrustStrategy;
 use SBSEDV\Bundle\RequestIdBundle\TrustStrategy\TrueTrustStrategy;
 use SBSEDV\Bundle\RequestIdBundle\Twig\Extension\RequestIdExtension;
@@ -43,22 +45,16 @@ class SBSEDVRequestIdExtension extends Extension implements PrependExtensionInte
      */
     private function configureProvider(ContainerBuilder $container, array $config): void
     {
-        switch ($config['provider']) {
-            case RequestIdProvider::class:
+        switch ($config['generator']) {
+            case RequestIdGenerator::class:
                 $container
-                    ->setDefinition(RequestIdProvider::class, new Definition(RequestIdProvider::class))
-                    ->setArguments([
-                        '$length' => $config['default_provider']['id_length'],
-                    ])
-                    ->addTag('kernel.reset', ['method' => 'reset'])
-                    ->setPublic(true)
+                    ->setDefinition(RequestIdGenerator::class, new Definition(RequestIdGenerator::class))
                 ;
                 break;
 
-            case UuidRequestIdProvider::class:
+            case UuidRequestIdGenerator::class:
                 $container
-                    ->setDefinition(UuidRequestIdProvider::class, new Definition(UuidRequestIdProvider::class))
-                    ->addTag('kernel.reset', ['method' => 'reset'])
+                    ->setDefinition(UuidRequestIdGenerator::class, new Definition(UuidRequestIdGenerator::class))
                 ;
                 break;
 
@@ -66,7 +62,17 @@ class SBSEDVRequestIdExtension extends Extension implements PrependExtensionInte
                 // user specified a custom service
         }
 
-        $container->setAlias(RequestIdProviderInterface::class, $config['provider']);
+        $container->setAlias(RequestIdGeneratorInterface::class, $config['generator']);
+
+        $container
+            ->setDefinition(RequestIdProvider::class, new Definition(RequestIdProvider::class))
+            ->setArguments([
+                '$requestIdGenerator' => new Reference(RequestIdGeneratorInterface::class),
+            ])
+            ->addTag('kernel.reset', ['method' => 'reset'])
+        ;
+
+        $container->setAlias(RequestIdProviderInterface::class, RequestIdProvider::class);
     }
 
     /**
