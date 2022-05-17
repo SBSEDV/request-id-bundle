@@ -8,7 +8,6 @@ use SBSEDV\Bundle\RequestIdBundle\Monolog\RequestIdLogProcessor;
 use SBSEDV\Bundle\RequestIdBundle\Provider\RequestIdProvider;
 use SBSEDV\Bundle\RequestIdBundle\Provider\RequestIdProviderInterface;
 use SBSEDV\Bundle\RequestIdBundle\Provider\UuidRequestIdProvider;
-use SBSEDV\Bundle\RequestIdBundle\TrustStrategy\IpBasedIncomingRequestIdStrategy;
 use SBSEDV\Bundle\RequestIdBundle\TrustStrategy\TrustedIncomingRequestIdStrategy;
 use SBSEDV\Bundle\RequestIdBundle\TrustStrategy\UntrustedIncomingRequestIdStrategy;
 use SBSEDV\Bundle\RequestIdBundle\Twig\Extension\RequestIdExtension;
@@ -147,13 +146,6 @@ class SBSEDVRequestIdExtension extends Extension implements PrependExtensionInte
 
         $container
             ->setDefinition(UntrustedIncomingRequestIdStrategy::class, new Definition(UntrustedIncomingRequestIdStrategy::class))
-        ;
-
-        $container
-            ->setDefinition(IpBasedIncomingRequestIdStrategy::class, new Definition(IpBasedIncomingRequestIdStrategy::class))
-            ->setArguments([
-                '$trustedIps' => $config['ip_trust_strategy']['trusted_ips'],
-            ])
         ;
     }
 

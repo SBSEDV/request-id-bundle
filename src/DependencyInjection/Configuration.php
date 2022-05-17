@@ -72,16 +72,6 @@ class Configuration implements ConfigurationInterface
                         ->end()
                     ->end()
                 ->end()
-
-                ->arrayNode('ip_trust_strategy')
-                    ->addDefaultsIfNotSet()
-                    ->children()
-                        ->arrayNode('trusted_ips')
-                            ->prototype('scalar')->end()
-                            ->defaultValue(['127.0.0.1', '192.168.0.1/8'])
-                        ->end()
-                    ->end()
-                ->end()
             ->end()
         ;
 
