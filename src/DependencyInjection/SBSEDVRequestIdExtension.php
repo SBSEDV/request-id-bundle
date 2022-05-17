@@ -167,6 +167,7 @@ class SBSEDVRequestIdExtension extends Extension implements PrependExtensionInte
             ->setDecoratedService('http_client')
             ->addTag('http_client.client')
             ->addTag('kernel.reset', ['method' => 'reset'])
+            ->addTag('monolog.logger', ['channel' => 'http_client'])
         ;
     }
 
