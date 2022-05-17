@@ -3,16 +3,17 @@
 namespace SBSEDV\Bundle\RequestIdBundle\EventListener;
 
 use SBSEDV\Bundle\RequestIdBundle\Provider\RequestIdProviderInterface;
+use SBSEDV\Bundle\RequestIdBundle\TrustStrategy\IncomingRequestIdStrategyInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
 use Symfony\Component\HttpKernel\Event\ResponseEvent;
 
-final class HttpHeaderEventListener implements EventSubscriberInterface
+final class IncomingHttpHeaderEventListener implements EventSubscriberInterface
 {
     public function __construct(
         private RequestIdProviderInterface $requestIdProvider,
-        private ?string $incomingHeaderName,
-        private ?string $outgoingHeaderName,
+        private string $headerName,
+        private IncomingRequestIdStrategyInterface $incomingRequestIdStrategy
     ) {
     }
 
@@ -23,29 +24,20 @@ final class HttpHeaderEventListener implements EventSubscriberInterface
      */
     public function onKernelRequest(RequestEvent $event): void
     {
-        if (null === $this->incomingHeaderName || !$event->isMainRequest()) {
+        if (!$event->isMainRequest()) {
             return;
         }
 
-        $incoming = $event->getRequest()->headers->get($this->incomingHeaderName);
-
-        if (\is_string($incoming)) {
-            $this->requestIdProvider->setRequestId($incoming);
-        }
-    }
-
-    /**
-     * Add a HTTP-Header with the unique Request-ID.
-     *
-     * @param ResponseEvent $event The "kernel.response" event.
-     */
-    public function onKernelResponse(ResponseEvent $event): void
-    {
-        if (null === $this->outgoingHeaderName || !$event->isMainRequest()) {
+        $requestId = $event->getRequest()->headers->get($this->headerName);
+        if (!\is_string($requestId)) {
             return;
         }
 
-        $event->getResponse()->headers->set($this->outgoingHeaderName, $this->requestIdProvider->getCurrentRequestId());
+        if (!$this->incomingRequestIdStrategy->isTrustedRequestId($requestId, $event->getRequest())) {
+            return;
+        }
+
+        $this->requestIdProvider->setRequestId($requestId);
     }
 
     /**
@@ -55,7 +47,6 @@ final class HttpHeaderEventListener implements EventSubscriberInterface
     {
         return [
             RequestEvent::class => ['onKernelRequest', 4096],
-            ResponseEvent::class => ['onKernelResponse', 4096],
         ];
     }
 }

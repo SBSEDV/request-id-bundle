@@ -2,11 +2,14 @@
 
 namespace SBSEDV\Bundle\RequestIdBundle\DependencyInjection;
 
-use SBSEDV\Bundle\RequestIdBundle\EventListener\HttpHeaderEventListener;
+use SBSEDV\Bundle\RequestIdBundle\EventListener\IncomingHttpHeaderEventListener;
+use SBSEDV\Bundle\RequestIdBundle\EventListener\OutgoingHttpHeaderEventListener;
 use SBSEDV\Bundle\RequestIdBundle\Monolog\RequestIdLogProcessor;
 use SBSEDV\Bundle\RequestIdBundle\Provider\RequestIdProvider;
 use SBSEDV\Bundle\RequestIdBundle\Provider\RequestIdProviderInterface;
 use SBSEDV\Bundle\RequestIdBundle\Provider\UuidRequestIdProvider;
+use SBSEDV\Bundle\RequestIdBundle\TrustStrategy\TrustedIncomingRequestIdStrategy;
+use SBSEDV\Bundle\RequestIdBundle\TrustStrategy\UntrustedRequestIdStrategy;
 use SBSEDV\Bundle\RequestIdBundle\Twig\Extension\RequestIdExtension;
 use Symfony\Bundle\MonologBundle\MonologBundle;
 use Symfony\Bundle\TwigBundle\TwigBundle;
@@ -26,6 +29,18 @@ class SBSEDVRequestIdExtension extends Extension implements PrependExtensionInte
     {
         $config = $this->processConfiguration(new Configuration(), $configs);
 
+        $this->configureProvider($container, $config);
+        $this->configureEventSubscriber($container, $config);
+        $this->configureMonologProcessor($container, $config);
+        $this->configureTwigExtension($container, $config);
+        $this->configureRequestIdTrustStrategies($container, $config);
+    }
+
+    /**
+     * Configure the main Request-ID provider service.
+     */
+    private function configureProvider(ContainerBuilder $container, array $config): void
+    {
         switch ($config['provider']) {
             case 'sbsedv_request_id.provider.default':
                 $container
@@ -54,38 +69,86 @@ class SBSEDVRequestIdExtension extends Extension implements PrependExtensionInte
         }
 
         $container->setAlias(RequestIdProviderInterface::class, $config['provider']);
+    }
 
-        if (\is_string($config['outgoing_http_header'] ?? null) || \is_string($config['incoming_http_header'] ?? null)) {
+    /**
+     * Configure the optional event subscriber.
+     */
+    private function configureEventSubscriber(ContainerBuilder $container, array $config): void
+    {
+        $container
+            ->setDefinition('sbsedv_request_id.event_listener.incoming_http_header', new Definition(IncomingHttpHeaderEventListener::class))
+            ->setArguments([
+                '$requestIdProvider' => new Reference(RequestIdProviderInterface::class),
+                '$headerName' => $config['incoming_http_header'],
+                '$incomingRequestIdStrategy' => new Reference($config['trust_incoming_http_header']),
+            ])
+            ->addTag('kernel.event_subscriber')
+        ;
+
+        $outgoingHeaderName = $config['outgoing_http_header'] ?? null;
+        if (\is_string($outgoingHeaderName)) {
             $container
-                ->setDefinition('sbsedv_request_id.event_listener.http_header', new Definition(HttpHeaderEventListener::class))
+                ->setDefinition('sbsedv_request_id.event_listener.outgoing_http_header', new Definition(OutgoingHttpHeaderEventListener::class))
                 ->setArguments([
                     '$requestIdProvider' => new Reference(RequestIdProviderInterface::class),
-                    '$incomingHeaderName' => $config['incoming_http_header'],
-                    '$outgoingHeaderName' => $config['outgoing_http_header'],
+                    '$headerName' => $outgoingHeaderName,
                 ])
                 ->addTag('kernel.event_subscriber')
             ;
         }
+    }
 
-        $bundles = $container->getParameter('kernel.bundles');
-        if (\in_array(MonologBundle::class, $bundles, true) && @$config['monolog_processor']['enabled'] === true) {
-            $container
-                ->setDefinition('sbsedv_request_id.monolog_log_processor', new Definition(RequestIdLogProcessor::class))
-                ->setArguments([
-                    '$requestIdProvider' => new Reference(RequestIdProviderInterface::class),
-                    '$key' => $config['monolog_processor']['key'],
-                ])
-                ->addTag('monolog.processor')
-                ->addTag('kernel.reset', ['method' => 'reset'])
-            ;
+    /**
+     * Configure the optional monolog processor.
+     */
+    private function configureMonologProcessor(ContainerBuilder $container, array $config): void
+    {
+        if (@$config['monolog_processor']['enabled'] !== true || !\in_array(MonologBundle::class, $container->getParameter('kernel.bundles'), true)) {
+            return;
         }
-        if (\in_array(TwigBundle::class, $bundles, true)) {
-            $container
-                ->setDefinition('sbsedv_request_id.twig_extension', new Definition(RequestIdExtension::class))
-                ->setArguments([
-                    '$requestIdProvider' => new Reference(RequestIdProviderInterface::class),
-                ])
-                ->addTag('twig.extension')
+
+        $container
+            ->setDefinition('sbsedv_request_id.monolog_log_processor', new Definition(RequestIdLogProcessor::class))
+            ->setArguments([
+                '$requestIdProvider' => new Reference(RequestIdProviderInterface::class),
+                '$key' => $config['monolog_processor']['key'],
+            ])
+            ->addTag('monolog.processor')
+            ->addTag('kernel.reset', ['method' => 'reset'])
+        ;
+    }
+
+    /**
+     * Configure the optional twig extension.
+     */
+    private function configureTwigExtension(ContainerBuilder $container, array $config): void
+    {
+        // skip if the twig bundle is not installed
+        if (!\in_array(TwigBundle::class, $container->getParameter('kernel.bundles'), true)) {
+            return;
+        }
+
+        $container
+            ->setDefinition('sbsedv_request_id.twig_extension', new Definition(RequestIdExtension::class))
+            ->setArguments([
+                '$requestIdProvider' => new Reference(RequestIdProviderInterface::class),
+            ])
+            ->addTag('twig.extension')
+        ;
+    }
+
+    /**
+     * Configure the various incoming request ids trust resolvers.
+     */
+    private function configureRequestIdTrustStrategies(ContainerBuilder $container, array $config): void
+    {
+        $container
+            ->setDefinition('sbsedv_request_id.incoming_trust_strategies.trusted', new Definition(TrustedIncomingRequestIdStrategy::class))
+        ;
+        $container
+            ->setDefinition('sbsedv_request_id.incoming_trust_strategies.untrusted', new Definition(UntrustedRequestIdStrategy::class))
+        ;
             ;
         }
     }

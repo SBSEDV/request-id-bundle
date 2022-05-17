@@ -24,15 +24,25 @@ class Configuration implements ConfigurationInterface
                 ->end()
 
                 ->scalarNode('outgoing_http_header')
-                    ->treatFalseLike(null)
                     ->info('The HTTP-Header name which will be added to every response with the RequestId as value.')
+                    ->treatFalseLike(null)
                     ->defaultValue('x-request-id')
                 ->end()
 
                 ->scalarNode('incoming_http_header')
-                    ->treatFalseLike(null)
                     ->info('The incoming HTTP-Header name that contains the RequestId to use.')
-                    ->defaultNull()
+                    ->defaultValue('x-request-id')
+                    ->cannotBeEmpty()
+                ->end()
+
+                ->scalarNode('trust_incoming_http_header')
+                    ->info('The strategy used to determine whether to trust the incoming HTTP-Header.')
+                    ->treatTrueLike('sbsedv_request_id.incoming_trust_strategies.trusted')
+                    ->treatFalseLike('sbsedv_request_id.incoming_trust_strategies.untrusted')
+                    ->treatNullLike('sbsedv_request_id.incoming_trust_strategies.untrusted')
+                    ->defaultValue('sbsedv_request_id.incoming_trust_strategies.untrusted')
+                    ->cannotBeEmpty()
+                ->end()
                 ->end()
 
                 ->scalarNode('prefix')
