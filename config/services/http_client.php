@@ -13,7 +13,7 @@ return function (ContainerConfigurator $container): void {
                 '$headerNames' => abstract_arg('The headers names to log.'),
             ])
             ->decorate('http_client')
-            ->tag('http_client.client')
+            // ->tag('http_client.client')
             ->tag('kernel.reset', ['method' => 'reset'])
             ->tag('monolog.logger', ['channel' => 'http_client'])
     ;
