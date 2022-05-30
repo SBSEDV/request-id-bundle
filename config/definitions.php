@@ -1,23 +1,14 @@
 <?php declare(strict_types=1);
 
-namespace SBSEDV\Bundle\RequestIdBundle\DependencyInjection;
+namespace Symfony\Component\Config\Definition\Configurator;
 
 use SBSEDV\Bundle\RequestIdBundle\Generator\UuidRequestIdGenerator;
 use SBSEDV\Bundle\RequestIdBundle\TrustStrategy\FalseTrustStrategy;
 use SBSEDV\Bundle\RequestIdBundle\TrustStrategy\TrueTrustStrategy;
-use Symfony\Component\Config\Definition\Builder\TreeBuilder;
-use Symfony\Component\Config\Definition\ConfigurationInterface;
 
-class Configuration implements ConfigurationInterface
-{
-    /**
-     * {@inheritdoc}
-     */
-    public function getConfigTreeBuilder(): TreeBuilder
-    {
-        $treeBuilder = new TreeBuilder('sbsedv_request_id');
-
-        $treeBuilder->getRootNode() // @phpstan-ignore-line
+return function (DefinitionConfigurator $definition): void {
+    $definition
+        ->rootNode()
             ->children()
                 ->scalarNode('generator')
                     ->info('The service ID of the Request-ID generator.')
@@ -46,7 +37,6 @@ class Configuration implements ConfigurationInterface
                     ->cannotBeEmpty()
                 ->end()
 
-                ->booleanNode('twig_error_template')->defaultTrue()->end()
                 ->scalarNode('twig_function_name')
                     ->info('Name of the registered twig function.')
                     ->defaultValue('request_id')
@@ -79,8 +69,6 @@ class Configuration implements ConfigurationInterface
                     ->end()
                 ->end()
             ->end()
-        ;
-
-        return $treeBuilder;
-    }
-}
+        ->end()
+    ;
+};
