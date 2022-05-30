@@ -35,17 +35,18 @@ If your application has the [symfony/twig-bundle](https://github.com/symfony/twi
 <p>Request-ID: {{ request_id() }}</p>
 ```
 
-This bundle can also provide a generic error page (based on the HtmlErrorRenderer default template) that embeds the request id.
-
-This is used by prepending the TwigExtension and setting the `@TwigBundle/Exception/error.html.twig` template.
+You can customize the registered twig function name via:
 
 ```yaml
 # config/packages/sbsedv_request_id.yaml
 
 sbsedv_request_id:
-    twig_error_template: true
-    twig_function_name: "request_id" # you can also customize the registered function name
+    twig_function_name: "request_id"
 ```
+
+This bundle can also provide a generic error page (based on the HtmlErrorRenderer default template) that embeds the request id. This is done by prepending the TwigExtension and setting the `@Twig/Exception/error.html.twig` template.
+
+If you want to disable this functionality, you have to compile the container with the `sbsedv_request_id.twig_error_template` parameter set to `false`.
 
 ---
 
