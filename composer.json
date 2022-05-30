@@ -1,6 +1,6 @@
 {
     "name": "sbsedv/request-id-bundle",
-    "description": "A Symfony ^6.0 bundle that adds a unique Request-ID.",
+    "description": "A Symfony ^6.1 bundle that adds a unique Request-ID.",
     "type": "symfony-bundle",
     "license": "MIT",
     "authors": [
