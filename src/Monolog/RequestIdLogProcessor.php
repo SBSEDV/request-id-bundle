@@ -19,7 +19,7 @@ class RequestIdLogProcessor implements ProcessorInterface, ResettableInterface, 
     /**
      * {@inheritDoc}
      */
-    public function __invoke(array|LogRecord $record): array
+    public function __invoke(array|LogRecord $record): array|LogRecord
     {
         $record['extra'][$this->key] = $this->requestIdProvider->getCurrentRequestId();
 
