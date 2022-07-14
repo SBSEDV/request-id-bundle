@@ -2,6 +2,7 @@
 
 namespace SBSEDV\Bundle\RequestIdBundle\Monolog;
 
+use Monolog\LogRecord;
 use Monolog\Processor\ProcessorInterface;
 use Monolog\ResettableInterface;
 use SBSEDV\Bundle\RequestIdBundle\Provider\RequestIdProviderInterface;
@@ -18,7 +19,7 @@ class RequestIdLogProcessor implements ProcessorInterface, ResettableInterface, 
     /**
      * {@inheritDoc}
      */
-    public function __invoke(array $record): array
+    public function __invoke(array|LogRecord $record): array
     {
         $record['extra'][$this->key] = $this->requestIdProvider->getCurrentRequestId();
 
