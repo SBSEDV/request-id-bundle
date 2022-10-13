@@ -28,6 +28,12 @@ class HttpClientRequestIdLogger implements HttpClientInterface
     public function request(string $method, string $url, array $options = []): ResponseInterface
     {
         return new AsyncResponse($this->client, $method, $url, $options, function (ChunkInterface $chunk, AsyncContext $asyncContext) {
+            if ($chunk->isTimeout() || null !== $chunk->getInformationalStatus() || $asyncContext->getInfo('canceled')) {
+                yield $chunk;
+
+                return;
+            }
+
             if ($chunk->isFirst()) {
                 $headers = $asyncContext->getHeaders();
 
