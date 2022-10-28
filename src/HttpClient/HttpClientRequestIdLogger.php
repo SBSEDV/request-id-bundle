@@ -27,20 +27,21 @@ class HttpClientRequestIdLogger implements HttpClientInterface
      */
     public function request(string $method, string $url, array $options = []): ResponseInterface
     {
-        return new AsyncResponse($this->client, $method, $url, $options, function (ChunkInterface $chunk, AsyncContext $asyncContext) {
-            if ($chunk->isTimeout() || null !== $chunk->getInformationalStatus() || $asyncContext->getInfo('canceled')) {
+        return new AsyncResponse($this->client, $method, $url, $options, function (ChunkInterface $chunk, AsyncContext $context) {
+            // @see https://github.com/symfony/symfony/pull/47990/commits/e100562fed39ee64fee523b2eacf6ec361429bad#r1004799422
+            if ($context->getInfo('canceled') || $chunk->isTimeout() || null !== $chunk->getInformationalStatus()) {
                 yield $chunk;
 
                 return;
             }
 
             if ($chunk->isFirst()) {
-                $headers = $asyncContext->getHeaders();
+                $headers = $context->getHeaders();
 
                 foreach ($this->headerNames as $headerName) {
                     if (\array_key_exists($headerName, $headers)) {
                         foreach ($headers[$headerName] as $header) {
-                            $info = $asyncContext->getInfo();
+                            $info = $context->getInfo();
 
                             $this->logger->debug(\sprintf('Response %s, Request-ID: %s', $info['url'], $header));
                         }
