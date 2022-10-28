@@ -26,6 +26,6 @@ class IpBasedTrustStrategy implements TrustStrategyInterface
             return false;
         }
 
-        return $request->isFromTrustedProxy() || IpUtils::checkIp($clientIp, $this->trustedIps);
+        return IpUtils::checkIp($clientIp, $this->trustedIps);
     }
 }
