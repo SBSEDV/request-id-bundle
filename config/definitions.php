@@ -4,6 +4,7 @@ namespace Symfony\Component\Config\Definition\Configurator;
 
 use SBSEDV\Bundle\RequestIdBundle\Generator\UuidRequestIdGenerator;
 use SBSEDV\Bundle\RequestIdBundle\TrustStrategy\FalseTrustStrategy;
+use SBSEDV\Bundle\RequestIdBundle\TrustStrategy\PrivateIpTrustStrategy;
 use SBSEDV\Bundle\RequestIdBundle\TrustStrategy\TrueTrustStrategy;
 
 return function (DefinitionConfigurator $definition): void {
@@ -33,7 +34,7 @@ return function (DefinitionConfigurator $definition): void {
                     ->treatTrueLike(TrueTrustStrategy::class)
                     ->treatFalseLike(FalseTrustStrategy::class)
                     ->treatNullLike(FalseTrustStrategy::class)
-                    ->defaultValue(FalseTrustStrategy::class)
+                    ->defaultValue(PrivateIpTrustStrategy::class)
                     ->cannotBeEmpty()
                 ->end()
 
