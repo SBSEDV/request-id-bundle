@@ -61,7 +61,7 @@ return function (DefinitionConfigurator $definition): void {
                     ->treatFalseLike(['enabled' => false])
                     ->addDefaultsIfNotSet()
                     ->children()
-                        ->booleanNode('enabled')->defaultTrue()->end()
+                        ->booleanNode('enabled')->defaultFalse()->end()
                         ->arrayNode('header_names')
                             ->info('The names of the http-headers that should be logged.')
                             ->scalarPrototype()->end()
