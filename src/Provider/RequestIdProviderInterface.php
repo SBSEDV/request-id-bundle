@@ -8,18 +8,12 @@ use Symfony\Contracts\Service\ResetInterface;
 interface RequestIdProviderInterface extends ResettableInterface, ResetInterface
 {
     /**
-     * Get the current unique request id.
+     * Get the current request id.
      */
     public function getCurrentRequestId(): string;
 
     /**
-     * Set the request id.
-     *
-     * NEVER CALL THIS METHOD IN USERLAND UNLESS YOU KNOW WHY.
-     *
-     * @internal
-     *
-     * @return void
+     * Set the request id of the current request.
      */
-    public function setRequestId(string $requestId);
+    public function setRequestId(string $requestId): void;
 }
