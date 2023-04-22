@@ -6,7 +6,6 @@ use SBSEDV\Bundle\RequestIdBundle\Provider\RequestIdProviderInterface;
 use SBSEDV\Bundle\RequestIdBundle\TrustStrategy\TrustStrategyInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
-use Symfony\Component\HttpKernel\Event\ResponseEvent;
 
 final class IncomingHttpHeaderEventListener implements EventSubscriberInterface
 {
@@ -20,7 +19,7 @@ final class IncomingHttpHeaderEventListener implements EventSubscriberInterface
     /**
      * Set the unique Request-ID from an incoming HTTP-Header.
      *
-     * @param ResponseEvent $event The "kernel.response" event.
+     * @param RequestEvent $event The "kernel.response" event.
      */
     public function onKernelRequest(RequestEvent $event): void
     {
