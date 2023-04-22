@@ -1,3 +1,4 @@
+[![PHPStan](https://github.com/SBSEDV/request-id-bundle/actions/workflows/phpstan.yml/badge.svg)](https://github.com/SBSEDV/request-id-bundle/actions/workflows/phpstan.yml)
 [![PHPCS-Fixer](https://github.com/SBSEDV/request-id-bundle/actions/workflows/phpcsfixer.yml/badge.svg)](https://github.com/SBSEDV/request-id-bundle/actions/workflows/phpcsfixer.yml)
 
 # sbsedv/request-id-bundle
