@@ -13,13 +13,15 @@ use Symfony\Bundle\TwigBundle\TwigBundle;
 use Symfony\Component\Config\Definition\Configurator\DefinitionConfigurator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+use Symfony\Component\HttpKernel\Bundle\AbstractBundle;
 
 use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
 
-use Symfony\Component\HttpKernel\Bundle\AbstractBundle;
-
 class SBSEDVRequestIdBundle extends AbstractBundle
 {
+    /**
+     * {@inheritdoc}
+     */
     public function configure(DefinitionConfigurator $definition): void
     {
         $definition->import('../config/definitions.php');
@@ -30,6 +32,7 @@ class SBSEDVRequestIdBundle extends AbstractBundle
      */
     public function loadExtension(array $config, ContainerConfigurator $container, ContainerBuilder $builder): void
     {
+        /** @var string[] */
         $bundles = $builder->getParameter('kernel.bundles');
 
         $container->import('../config/services/request_id_provider.php');
@@ -73,6 +76,7 @@ class SBSEDVRequestIdBundle extends AbstractBundle
      */
     public function prependExtension(ContainerConfigurator $container, ContainerBuilder $builder): void
     {
+        /** @var string[] */
         $bundles = $builder->getParameter('kernel.bundles');
 
         $loadTwigErrorTemplate = $builder->hasParameter('sbsedv_request_id.twig_error_template') ? $builder->getParameter('sbsedv_request_id.twig_error_template') : true;

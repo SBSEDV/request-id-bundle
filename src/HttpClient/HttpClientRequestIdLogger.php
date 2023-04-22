@@ -43,7 +43,9 @@ class HttpClientRequestIdLogger implements HttpClientInterface
                         foreach ($headers[$headerName] as $header) {
                             $info = $context->getInfo();
 
-                            $this->logger->debug(\sprintf('Response %s, Request-ID: %s', $info['url'], $header));
+                            if (\is_array($info) && \array_key_exists('url', $info)) {
+                                $this->logger->debug(\sprintf('Response %s, Request-ID: %s', $info['url'], $header));
+                            }
                         }
                     }
                 }

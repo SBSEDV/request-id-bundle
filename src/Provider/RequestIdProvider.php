@@ -23,7 +23,7 @@ class RequestIdProvider implements RequestIdProviderInterface, ResetInterface
             $this->reset();
         }
 
-        return $this->requestId;
+        return $this->requestId; // @phpstan-ignore-line
     }
 
     /**
