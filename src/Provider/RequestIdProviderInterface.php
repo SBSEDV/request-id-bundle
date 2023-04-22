@@ -3,8 +3,9 @@
 namespace SBSEDV\Bundle\RequestIdBundle\Provider;
 
 use Monolog\ResettableInterface;
+use Symfony\Contracts\Service\ResetInterface;
 
-interface RequestIdProviderInterface extends ResettableInterface
+interface RequestIdProviderInterface extends ResettableInterface, ResetInterface
 {
     /**
      * Get the current unique request id.
