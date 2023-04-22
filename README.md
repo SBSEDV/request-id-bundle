@@ -1,3 +1,5 @@
+[![PHPCS-Fixer](https://github.com/SBSEDV/request-id-bundle/actions/workflows/phpcsfixer.yml/badge.svg)](https://github.com/SBSEDV/request-id-bundle/actions/workflows/phpcsfixer.yml)
+
 # sbsedv/request-id-bundle
 
 A Symfony ^6.1 bundle that adds a unique Request-ID.
