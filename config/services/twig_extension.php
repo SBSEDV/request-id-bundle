@@ -3,7 +3,6 @@
 namespace Symfony\Component\DependencyInjection\Loader\Configurator;
 
 use SBSEDV\Bundle\RequestIdBundle\Provider\RequestIdProviderInterface;
-use SBSEDV\Bundle\RequestIdBundle\TrustStrategy\FalseTrustStrategy;
 use SBSEDV\Bundle\RequestIdBundle\Twig\Extension\RequestIdExtension;
 
 return function (ContainerConfigurator $container): void {
@@ -15,6 +14,5 @@ return function (ContainerConfigurator $container): void {
             ])
             ->tag('twig.extension')
 
-        ->set(FalseTrustStrategy::class)
     ;
 };
