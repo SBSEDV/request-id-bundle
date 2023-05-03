@@ -16,7 +16,7 @@ return (new PhpCsFixer\Config())
         'yoda_style' => false,
         'single_line_throw' => false,
         'native_function_invocation' => [
-            'include' => ['@all'],
+            'include' => ['@internal'],
         ],
     ])
     ->setRiskyAllowed(true)
