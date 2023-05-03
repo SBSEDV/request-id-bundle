@@ -10,7 +10,7 @@ use Symfony\Contracts\HttpClient\ChunkInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 use Symfony\Contracts\HttpClient\ResponseInterface;
 
-class HttpClientRequestIdLogger implements HttpClientInterface
+class RequestIdLoggingHttpClient implements HttpClientInterface
 {
     use AsyncDecoratorTrait;
 
@@ -44,7 +44,10 @@ class HttpClientRequestIdLogger implements HttpClientInterface
                             $info = $context->getInfo();
 
                             if (\is_array($info) && \array_key_exists('url', $info)) {
-                                $this->logger->debug(\sprintf('Response %s, Request-ID: %s', $info['url'], $header));
+                                $this->logger->debug('Response {url}, Request-ID: {requestId}', [
+                                    'url' => $info['url'],
+                                    'requestId' => $header,
+                                ]);
                             }
                         }
                     }

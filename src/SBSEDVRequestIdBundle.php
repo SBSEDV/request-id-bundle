@@ -5,7 +5,7 @@ namespace SBSEDV\Bundle\RequestIdBundle;
 use SBSEDV\Bundle\RequestIdBundle\EventListener\IncomingHttpHeaderEventListener;
 use SBSEDV\Bundle\RequestIdBundle\EventListener\OutgoingHttpHeaderEventListener;
 use SBSEDV\Bundle\RequestIdBundle\Generator\RequestIdGeneratorInterface;
-use SBSEDV\Bundle\RequestIdBundle\HttpClient\HttpClientRequestIdLogger;
+use SBSEDV\Bundle\RequestIdBundle\HttpClient\RequestIdLoggingHttpClient;
 use SBSEDV\Bundle\RequestIdBundle\Monolog\RequestIdLogProcessor;
 use SBSEDV\Bundle\RequestIdBundle\Twig\Extension\RequestIdExtension;
 use Symfony\Bundle\MonologBundle\MonologBundle;
@@ -40,7 +40,7 @@ class SBSEDVRequestIdBundle extends AbstractBundle
 
         if ($config['http_client']['enabled']) {
             $container->import('../config/services/http_client.php');
-            $container->services()->get(HttpClientRequestIdLogger::class)->arg('$headerNames', $config['http_client']['header_names']);
+            $container->services()->get(RequestIdLoggingHttpClient::class)->arg('$headerNames', $config['http_client']['header_names']);
         }
 
         if ($config['monolog_processor']['enabled'] && \in_array(MonologBundle::class, $bundles, true)) {

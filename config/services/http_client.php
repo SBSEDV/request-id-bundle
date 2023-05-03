@@ -2,11 +2,11 @@
 
 namespace Symfony\Component\DependencyInjection\Loader\Configurator;
 
-use SBSEDV\Bundle\RequestIdBundle\HttpClient\HttpClientRequestIdLogger;
+use SBSEDV\Bundle\RequestIdBundle\HttpClient\RequestIdLoggingHttpClient;
 
 return function (ContainerConfigurator $container): void {
     $container->services()
-        ->set(HttpClientRequestIdLogger::class)
+        ->set(RequestIdLoggingHttpClient::class)
             ->args([
                 '$client' => service('.inner'),
                 '$logger' => service('logger'),
