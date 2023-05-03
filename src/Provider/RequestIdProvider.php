@@ -3,9 +3,8 @@
 namespace SBSEDV\Bundle\RequestIdBundle\Provider;
 
 use SBSEDV\Bundle\RequestIdBundle\Generator\RequestIdGeneratorInterface;
-use Symfony\Contracts\Service\ResetInterface;
 
-class RequestIdProvider implements RequestIdProviderInterface, ResetInterface
+class RequestIdProvider implements RequestIdProviderInterface
 {
     private ?string $requestId = null;
 
@@ -29,16 +28,16 @@ class RequestIdProvider implements RequestIdProviderInterface, ResetInterface
     /**
      * {@inheritDoc}
      */
-    public function reset(): void
+    public function setRequestId(string $requestId): void
     {
-        $this->requestId = $this->requestIdGenerator->createNewRequestId();
+        $this->requestId = $requestId;
     }
 
     /**
      * {@inheritDoc}
      */
-    public function setRequestId(string $requestId): void
+    public function reset(): void
     {
-        $this->requestId = $requestId;
+        $this->requestId = $this->requestIdGenerator->createNewRequestId();
     }
 }
