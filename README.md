@@ -47,9 +47,18 @@ sbsedv_request_id:
     twig_function_name: "request_id"
 ```
 
-This bundle can also provide a generic error page (based on the HtmlErrorRenderer default template) that embeds the request id. This is done by prepending the TwigExtension and setting the `@Twig/Exception/error.html.twig` template.
+---
 
-If you want to disable this functionality, you have to compile the container with the `sbsedv_request_id.twig_error_template` parameter set to `false`.
+### **Error Renderer**
+
+By default this bundle decorates the `error_renderer` service and inserts the current request id before the `</body>` tag.
+
+```yaml
+# config/packages/sbsedv_request_id.yaml
+
+sbsedv_request_id:
+    error_renderer_decorator: false # enabled by default
+```
 
 ---
 
