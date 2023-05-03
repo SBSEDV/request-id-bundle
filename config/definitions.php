@@ -69,6 +69,8 @@ return function (DefinitionConfigurator $definition): void {
                         ->end()
                     ->end()
                 ->end()
+
+                ->booleanNode('error_renderer_decorator')->defaultTrue()->end()
             ->end()
         ->end()
     ;

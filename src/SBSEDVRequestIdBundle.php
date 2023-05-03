@@ -53,6 +53,10 @@ class SBSEDVRequestIdBundle extends AbstractBundle
             $container->services()->get(RequestIdExtension::class)->arg('$functionName', $config['twig_function_name']);
         }
 
+        if ($config['error_renderer_decorator']) {
+            $container->import('../config/services/error_renderer.php');
+        }
+
         $container->import('../config/services/request_id_generator.php');
         $container->services()->alias(RequestIdGeneratorInterface::class, $config['generator']);
 
@@ -68,25 +72,6 @@ class SBSEDVRequestIdBundle extends AbstractBundle
             $container->services()->get(OutgoingHttpHeaderEventListener::class)
                 ->arg('$headerName', $outgoingHeaderName)
             ;
-        }
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function prependExtension(ContainerConfigurator $container, ContainerBuilder $builder): void
-    {
-        /** @var string[] */
-        $bundles = $builder->getParameter('kernel.bundles');
-
-        $loadTwigErrorTemplate = $builder->hasParameter('sbsedv_request_id.twig_error_template') ? $builder->getParameter('sbsedv_request_id.twig_error_template') : true;
-
-        if (\in_array(TwigBundle::class, $bundles, true) && $loadTwigErrorTemplate) {
-            $container->extension('twig', [
-                'paths' => [
-                    __DIR__.'/../templates/bundles/TwigBundle' => 'Twig', // @phpstan-ignore-line
-                ],
-            ]);
         }
     }
 }
