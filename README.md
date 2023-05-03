@@ -26,6 +26,9 @@ sbsedv_request_id:
     # incoming_http_header: "x-request-id" # request header that contains the Request-ID to use
 ```
 
+The incoming http-header is only used when the `SBSEDV\Bundle\RequestIdBundle\TrustStrategy\TrustStrategyInterface` service trusts the incoming request. <br>
+By default the [PrivateIpTrustStrategy](src/TrustStrategy/PrivateIpTrustStrategy.php) is registered.
+
 ---
 
 ### **Twig Integration**
