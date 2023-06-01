@@ -13,9 +13,6 @@ class RequestIdProvider implements RequestIdProviderInterface
     ) {
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getCurrentRequestId(): string
     {
         if (null === $this->requestId) {
@@ -25,17 +22,11 @@ class RequestIdProvider implements RequestIdProviderInterface
         return $this->requestId; // @phpstan-ignore-line
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function setRequestId(string $requestId): void
     {
         $this->requestId = $requestId;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function reset(): void
     {
         $this->requestId = $this->requestIdGenerator->createNewRequestId();

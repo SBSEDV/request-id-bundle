@@ -14,9 +14,6 @@ class HtmlErrorRendererDecorator implements ErrorRendererInterface
     ) {
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function render(\Throwable $exception): FlattenException
     {
         $e = $this->inner->render($exception);

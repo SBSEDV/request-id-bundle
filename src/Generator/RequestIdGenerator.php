@@ -9,9 +9,6 @@ class RequestIdGenerator implements RequestIdGeneratorInterface
     ) {
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function createNewRequestId(): string
     {
         return \substr(\bin2hex(\random_bytes((int) \ceil($this->length / 2))), 0, $this->length);  // @phpstan-ignore-line

@@ -19,17 +19,11 @@ use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
 
 class SBSEDVRequestIdBundle extends AbstractBundle
 {
-    /**
-     * {@inheritdoc}
-     */
     public function configure(DefinitionConfigurator $definition): void
     {
         $definition->import('../config/definitions.php');
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function loadExtension(array $config, ContainerConfigurator $container, ContainerBuilder $builder): void
     {
         /** @var string[] */

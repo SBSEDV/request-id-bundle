@@ -28,9 +28,6 @@ final class OutgoingHttpHeaderEventListener implements EventSubscriberInterface
         $event->getResponse()->headers->set($this->headerName, $this->requestIdProvider->getCurrentRequestId());
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public static function getSubscribedEvents(): array
     {
         return [

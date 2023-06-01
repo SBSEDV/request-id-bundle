@@ -15,9 +15,6 @@ class IpBasedTrustStrategy implements TrustStrategyInterface
     ) {
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function isTrustedRequestId(string $requestId, Request $request): bool
     {
         $clientIp = $request->getClientIp();

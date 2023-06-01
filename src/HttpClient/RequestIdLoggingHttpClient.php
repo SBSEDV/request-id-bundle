@@ -22,9 +22,6 @@ class RequestIdLoggingHttpClient implements HttpClientInterface
         $this->client = $client;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function request(string $method, string $url, array $options = []): ResponseInterface
     {
         return new AsyncResponse($this->client, $method, $url, $options, function (ChunkInterface $chunk, AsyncContext $context) {

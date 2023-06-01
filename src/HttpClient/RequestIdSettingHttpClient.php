@@ -18,9 +18,6 @@ class RequestIdSettingHttpClient implements HttpClientInterface
     ) {
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function request(string $method, string $url, array $options = []): ResponseInterface
     {
         @$options['headers'][$this->headerName] = $this->requestIdProvider->getCurrentRequestId();

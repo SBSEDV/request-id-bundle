@@ -11,9 +11,6 @@ class UuidRequestIdGenerator implements RequestIdGeneratorInterface
     ) {
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function createNewRequestId(): string
     {
         $method = 'v'.$this->version;

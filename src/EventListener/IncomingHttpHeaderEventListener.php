@@ -39,9 +39,6 @@ final class IncomingHttpHeaderEventListener implements EventSubscriberInterface
         $this->requestIdProvider->setRequestId($requestId);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public static function getSubscribedEvents(): array
     {
         return [

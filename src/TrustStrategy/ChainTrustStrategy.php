@@ -14,9 +14,6 @@ class ChainTrustStrategy implements TrustStrategyInterface
     ) {
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function isTrustedRequestId(string $requestId, Request $request): bool
     {
         foreach ($this->trustStrategies as $trustStrategy) {

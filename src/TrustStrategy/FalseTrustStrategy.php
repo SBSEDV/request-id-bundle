@@ -6,9 +6,6 @@ use Symfony\Component\HttpFoundation\Request;
 
 class FalseTrustStrategy implements TrustStrategyInterface
 {
-    /**
-     * {@inheritdoc}
-     */
     public function isTrustedRequestId(string $requestId, Request $request): bool
     {
         return false;

@@ -16,9 +16,6 @@ class RequestIdLogProcessor implements ProcessorInterface, ResettableInterface, 
     ) {
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function __invoke(array|LogRecord $record): array|LogRecord
     {
         $record['extra'][$this->key] = $this->requestIdProvider->getCurrentRequestId();
@@ -26,9 +23,6 @@ class RequestIdLogProcessor implements ProcessorInterface, ResettableInterface, 
         return $record;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function reset(): void
     {
         if ($this->requestIdProvider instanceof ResettableInterface) {
