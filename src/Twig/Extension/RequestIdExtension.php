@@ -9,8 +9,8 @@ use Twig\TwigFunction;
 class RequestIdExtension extends AbstractExtension
 {
     public function __construct(
-        private RequestIdProviderInterface $requestIdProvider,
-        private string $functionName
+        private readonly RequestIdProviderInterface $requestIdProvider,
+        private readonly string $functionName
     ) {
     }
 

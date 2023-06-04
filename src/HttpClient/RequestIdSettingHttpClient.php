@@ -12,9 +12,9 @@ class RequestIdSettingHttpClient implements HttpClientInterface
     use DecoratorTrait;
 
     public function __construct(
-        private HttpClientInterface $client,
-        private RequestIdProviderInterface $requestIdProvider,
-        private string $headerName = 'x-request-id'
+        private readonly HttpClientInterface $client,
+        private readonly RequestIdProviderInterface $requestIdProvider,
+        private readonly string $headerName = 'x-request-id'
     ) {
     }
 

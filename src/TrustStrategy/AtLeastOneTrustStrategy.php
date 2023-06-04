@@ -10,7 +10,7 @@ class AtLeastOneTrustStrategy implements TrustStrategyInterface
      * @param iterable<TrustStrategyInterface> $trustStrategies
      */
     public function __construct(
-        private iterable $trustStrategies
+        private readonly iterable $trustStrategies
     ) {
     }
 

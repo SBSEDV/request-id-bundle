@@ -9,8 +9,8 @@ use Symfony\Component\ErrorHandler\Exception\FlattenException;
 class HtmlErrorRendererDecorator implements ErrorRendererInterface
 {
     public function __construct(
-        private ErrorRendererInterface $inner,
-        private RequestIdProviderInterface $requestIdProvider
+        private readonly ErrorRendererInterface $inner,
+        private readonly RequestIdProviderInterface $requestIdProvider
     ) {
     }
 

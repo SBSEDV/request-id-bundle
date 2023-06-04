@@ -9,8 +9,8 @@ use Symfony\Component\HttpKernel\Event\ResponseEvent;
 final class OutgoingHttpHeaderEventListener implements EventSubscriberInterface
 {
     public function __construct(
-        private RequestIdProviderInterface $requestIdProvider,
-        private string $headerName,
+        private readonly RequestIdProviderInterface $requestIdProvider,
+        private readonly string $headerName,
     ) {
     }
 

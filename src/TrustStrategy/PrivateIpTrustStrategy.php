@@ -24,7 +24,7 @@ class PrivateIpTrustStrategy implements TrustStrategyInterface
     ];
 
     public function __construct(
-        private string|array|null $subnets = null
+        private readonly string|array|null $subnets = null
     ) {
     }
 

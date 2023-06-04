@@ -14,10 +14,13 @@ class RequestIdLoggingHttpClient implements HttpClientInterface
 {
     use AsyncDecoratorTrait;
 
+    /**
+     * @param string[] $headerNames
+     */
     public function __construct(
         HttpClientInterface $client,
-        private LoggerInterface $logger,
-        private array $headerNames
+        private readonly LoggerInterface $logger,
+        private readonly array $headerNames
     ) {
         $this->client = $client;
     }

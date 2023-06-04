@@ -11,8 +11,8 @@ use Symfony\Contracts\Service\ResetInterface;
 class RequestIdLogProcessor implements ProcessorInterface, ResettableInterface, ResetInterface
 {
     public function __construct(
-        private RequestIdProviderInterface $requestIdProvider,
-        private string $key
+        private readonly RequestIdProviderInterface $requestIdProvider,
+        private readonly string $key
     ) {
     }
 
