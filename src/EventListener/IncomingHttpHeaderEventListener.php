@@ -2,6 +2,7 @@
 
 namespace SBSEDV\Bundle\RequestIdBundle\EventListener;
 
+use Psr\Log\LoggerInterface;
 use SBSEDV\Bundle\RequestIdBundle\Provider\RequestIdProviderInterface;
 use SBSEDV\Bundle\RequestIdBundle\TrustStrategy\TrustStrategyInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -10,9 +11,10 @@ use Symfony\Component\HttpKernel\Event\RequestEvent;
 final class IncomingHttpHeaderEventListener implements EventSubscriberInterface
 {
     public function __construct(
-        private RequestIdProviderInterface $requestIdProvider,
-        private string $headerName,
-        private TrustStrategyInterface $trustStrategy
+        private readonly RequestIdProviderInterface $requestIdProvider,
+        private readonly string $headerName,
+        private readonly TrustStrategyInterface $trustStrategy,
+        private readonly ?LoggerInterface $logger
     ) {
     }
 
@@ -33,8 +35,16 @@ final class IncomingHttpHeaderEventListener implements EventSubscriberInterface
         }
 
         if (!$this->trustStrategy->isTrustedRequestId($requestId, $event->getRequest())) {
+            $this->logger?->debug('[RequestID] Untrusted Request-ID provided in incoming "{headerName}" header.', [
+                'headerName' => $this->headerName,
+            ]);
+
             return;
         }
+
+        $this->logger?->debug('[RequestID] Reusing Request-ID from incoming "{headerName}" header.', [
+            'headerName' => $this->headerName,
+        ]);
 
         $this->requestIdProvider->setRequestId($requestId);
     }

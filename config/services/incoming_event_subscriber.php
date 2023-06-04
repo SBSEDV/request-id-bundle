@@ -12,6 +12,7 @@ return function (ContainerConfigurator $container): void {
                 '$requestIdProvider' => service(RequestIdProviderInterface::class),
                 '$headerName' => abstract_arg('The name of the incoming http header.'),
                 '$trustStrategy' => abstract_arg('The trust strategy service.'),
+                '$logger' => service('logger')->nullOnInvalid(),
             ])
             ->tag('kernel.event_subscriber')
     ;
