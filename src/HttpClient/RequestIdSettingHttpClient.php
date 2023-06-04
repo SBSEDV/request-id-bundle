@@ -12,7 +12,7 @@ class RequestIdSettingHttpClient implements HttpClientInterface
     use DecoratorTrait;
 
     public function __construct(
-        private readonly HttpClientInterface $client,
+        private HttpClientInterface $client,
         private readonly RequestIdProviderInterface $requestIdProvider,
         private readonly string $headerName = 'x-request-id'
     ) {
@@ -22,6 +22,6 @@ class RequestIdSettingHttpClient implements HttpClientInterface
     {
         @$options['headers'][$this->headerName] = $this->requestIdProvider->getCurrentRequestId();
 
-        return $this->request($method, $url, $options);
+        return $this->client->request($method, $url, $options);
     }
 }
