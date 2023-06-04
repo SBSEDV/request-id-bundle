@@ -58,7 +58,7 @@ return function (DefinitionConfigurator $definition): void {
                 ->end()
 
                 ->arrayNode('http_client')
-                    ->treatFalseLike(['enabled' => false])
+                    ->treatTrueLike(['enabled' => true])
                     ->addDefaultsIfNotSet()
                     ->children()
                         ->booleanNode('enabled')->defaultFalse()->end()
