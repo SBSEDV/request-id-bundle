@@ -3,7 +3,7 @@
 
 # sbsedv/request-id-bundle
 
-A Symfony ^6.1 bundle that adds a unique Request-ID.
+A Symfony ^6.3 bundle that adds a unique Request-ID.
 
 In the configuration examples shown below, the default values are used.
 
