@@ -29,6 +29,9 @@
         "symfony/uid": "^6.3",
         "twig/twig": "^3.3"
     },
+    "conflict": {
+        "symfony/framework-bundle": "<6.3"
+    },
     "extra": {
         "branch-alias": {
             "dev-main": "1.x-dev"
