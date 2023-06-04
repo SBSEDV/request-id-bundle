@@ -7,22 +7,9 @@ use Symfony\Component\HttpFoundation\Request;
 
 class PrivateIpTrustStrategy implements TrustStrategyInterface
 {
-    // @see https://github.com/symfony/http-client/blob/6.1/NoPrivateNetworkHttpClient.php
-    private const PRIVATE_SUBNETS = [
-        '127.0.0.0/8',
-        '10.0.0.0/8',
-        '192.168.0.0/16',
-        '172.16.0.0/12',
-        '169.254.0.0/16',
-        '0.0.0.0/8',
-        '240.0.0.0/4',
-        '::1/128',
-        'fc00::/7',
-        'fe80::/10',
-        '::ffff:0:0/96',
-        '::/128',
-    ];
-
+    /**
+     * @param string|string[]|null $subnets
+     */
     public function __construct(
         private readonly string|array|null $subnets = null
     ) {
@@ -36,6 +23,6 @@ class PrivateIpTrustStrategy implements TrustStrategyInterface
             return false;
         }
 
-        return IpUtils::checkIp($clientIp, $this->subnets ?? self::PRIVATE_SUBNETS);
+        return IpUtils::checkIp($clientIp, $this->subnets ?? IpUtils::PRIVATE_SUBNETS);
     }
 }
