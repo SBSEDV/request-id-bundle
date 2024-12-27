@@ -12,7 +12,7 @@ class RequestIdLogProcessor implements ProcessorInterface, ResettableInterface, 
 {
     public function __construct(
         private readonly RequestIdProviderInterface $requestIdProvider,
-        private readonly string $key
+        private readonly string $key,
     ) {
     }
 

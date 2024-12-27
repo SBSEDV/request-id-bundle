@@ -10,7 +10,7 @@ class RequestIdExtension extends AbstractExtension
 {
     public function __construct(
         private readonly RequestIdProviderInterface $requestIdProvider,
-        private readonly string $functionName
+        private readonly string $functionName,
     ) {
     }
 

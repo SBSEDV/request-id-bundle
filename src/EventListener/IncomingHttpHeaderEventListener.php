@@ -14,7 +14,7 @@ final class IncomingHttpHeaderEventListener implements EventSubscriberInterface
         private readonly RequestIdProviderInterface $requestIdProvider,
         private readonly string $headerName,
         private readonly TrustStrategyInterface $trustStrategy,
-        private readonly ?LoggerInterface $logger
+        private readonly ?LoggerInterface $logger,
     ) {
     }
 

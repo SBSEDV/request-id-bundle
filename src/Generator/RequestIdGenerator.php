@@ -5,7 +5,7 @@ namespace SBSEDV\Bundle\RequestIdBundle\Generator;
 class RequestIdGenerator implements RequestIdGeneratorInterface
 {
     public function __construct(
-        private readonly int $length = 16
+        private readonly int $length = 16,
     ) {
     }
 

@@ -9,7 +9,7 @@ class RequestIdProvider implements RequestIdProviderInterface
     private ?string $requestId = null;
 
     public function __construct(
-        private readonly RequestIdGeneratorInterface $requestIdGenerator
+        private readonly RequestIdGeneratorInterface $requestIdGenerator,
     ) {
     }
 

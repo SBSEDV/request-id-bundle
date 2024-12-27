@@ -20,7 +20,7 @@ class RequestIdLoggingHttpClient implements HttpClientInterface
     public function __construct(
         HttpClientInterface $client,
         private readonly LoggerInterface $logger,
-        private readonly array $headerNames
+        private readonly array $headerNames,
     ) {
         $this->client = $client;
     }

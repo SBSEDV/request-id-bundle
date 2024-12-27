@@ -7,7 +7,7 @@ use Symfony\Component\Uid\Uuid;
 class UuidRequestIdGenerator implements RequestIdGeneratorInterface
 {
     public function __construct(
-        private readonly int $version = 4
+        private readonly int $version = 4,
     ) {
     }
 

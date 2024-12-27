@@ -10,7 +10,7 @@ class HtmlErrorRendererDecorator implements ErrorRendererInterface
 {
     public function __construct(
         private readonly ErrorRendererInterface $inner,
-        private readonly RequestIdProviderInterface $requestIdProvider
+        private readonly RequestIdProviderInterface $requestIdProvider,
     ) {
     }
 

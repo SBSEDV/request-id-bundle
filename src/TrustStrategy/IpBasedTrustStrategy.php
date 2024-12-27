@@ -11,7 +11,7 @@ class IpBasedTrustStrategy implements TrustStrategyInterface
      * @param string|string[] $trustedIps
      */
     public function __construct(
-        private readonly string|array $trustedIps
+        private readonly string|array $trustedIps,
     ) {
     }
 
