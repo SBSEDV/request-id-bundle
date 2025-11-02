@@ -24,6 +24,18 @@ class SBSEDVRequestIdBundle extends AbstractBundle
         $definition->import('../config/definitions.php');
     }
 
+    /**
+     * @param array{
+     *      'http_client': array{'enabled': bool, 'header_names': string[]},
+     *      'monolog_processor': array{'enabled': bool, 'key': string},
+     *      'twig_function_name': string,
+     *      'error_renderer_decorator': bool,
+     *      'generator': string,
+     *      'incoming_http_header': string,
+     *      'trust_incoming_http_header': string,
+     *      'outgoing_http_header': string|null
+     * } $config
+     */
     public function loadExtension(array $config, ContainerConfigurator $container, ContainerBuilder $builder): void
     {
         /** @var string[] */

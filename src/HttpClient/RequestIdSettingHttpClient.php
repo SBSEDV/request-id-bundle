@@ -18,8 +18,12 @@ class RequestIdSettingHttpClient implements HttpClientInterface
     ) {
     }
 
+    /**
+     * @param array<array-key, mixed> $options
+     */
     public function request(string $method, string $url, array $options = []): ResponseInterface
     {
+        // @phpstan-ignore-next-line offsetAccess.nonOffsetAccessible
         @$options['headers'][$this->headerName] = $this->requestIdProvider->getCurrentRequestId();
 
         return $this->client->request($method, $url, $options);

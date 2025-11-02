@@ -3,9 +3,4 @@ parameters:
 
     paths:
         - src/
-
-    excludePaths:
-        - src/Resources/views/*
-
-    ignoreErrors:
-        - identifier: missingType.iterableValue
+        - config/

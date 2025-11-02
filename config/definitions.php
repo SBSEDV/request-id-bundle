@@ -8,7 +8,7 @@ use SBSEDV\Bundle\RequestIdBundle\TrustStrategy\TrueTrustStrategy;
 use SBSEDV\Bundle\RequestIdBundle\TrustStrategy\TrustStrategyInterface;
 
 return function (DefinitionConfigurator $definition): void {
-    $definition
+    $definition // @phpstan-ignore method.notFound
         ->rootNode()
             ->children()
                 ->scalarNode('generator')

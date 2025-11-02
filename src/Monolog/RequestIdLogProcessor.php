@@ -16,9 +16,15 @@ class RequestIdLogProcessor implements ProcessorInterface, ResettableInterface, 
     ) {
     }
 
+    /**
+     * @param LogRecord|array<'message'|'level'|'context'|'level_name'|'channel'|'datetime'|'extra'|'formatted',int|string|\DateTimeImmutable|array<mixed>> $record
+     *
+     * @return LogRecord|array<'message'|'level'|'context'|'level_name'|'channel'|'datetime'|'extra'|'formatted',int|string|\DateTimeImmutable|array<mixed>>
+     */
     public function __invoke(array|LogRecord $record): array|LogRecord
     {
-        $record['extra'][$this->key] = $this->requestIdProvider->getCurrentRequestId();
+        // @phpstan-ignore-next-line offsetAccess.nonOffsetAccessible
+        @$record['extra'][$this->key] = $this->requestIdProvider->getCurrentRequestId();
 
         return $record;
     }
