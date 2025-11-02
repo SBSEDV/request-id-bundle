@@ -25,8 +25,6 @@ class RequestIdLogProcessor implements ProcessorInterface, ResettableInterface, 
 
     public function reset(): void
     {
-        if ($this->requestIdProvider instanceof ResettableInterface) {
-            $this->requestIdProvider->reset();
-        }
+        $this->requestIdProvider->reset();
     }
 }
