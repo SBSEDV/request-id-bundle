@@ -20,7 +20,9 @@
     },
     "require-dev": {
         "friendsofphp/php-cs-fixer": "^3.89",
+        "phpstan/extension-installer": "^1.4",
         "phpstan/phpstan": "^2.1",
+        "phpstan/phpstan-symfony": "^2.0",
         "symfony/http-client": "^7.0",
         "symfony/monolog-bundle": "^3.6",
         "symfony/twig-bundle": "^7.0",
@@ -33,6 +35,9 @@
         }
     },
     "config": {
-        "sort-packages": true
+        "sort-packages": true,
+        "allow-plugins": {
+            "phpstan/extension-installer": true
+        }
     }
 }
