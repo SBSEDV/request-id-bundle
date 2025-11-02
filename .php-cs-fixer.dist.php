@@ -22,7 +22,7 @@ return (new PhpCsFixer\Config())
     ->setRiskyAllowed(true)
     ->setFinder(
         PhpCsFixer\Finder::create()
-            ->in(__DIR__.'/src')
+            ->in([__DIR__.'/src', __DIR__.'/config'])
             ->append([__FILE__])
     )
 ;
