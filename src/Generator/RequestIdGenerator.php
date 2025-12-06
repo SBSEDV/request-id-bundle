@@ -11,6 +11,6 @@ class RequestIdGenerator implements RequestIdGeneratorInterface
 
     public function createNewRequestId(): string
     {
-        return \substr(\bin2hex(\random_bytes((int) \ceil($this->length / 2))), 0, $this->length);  // @phpstan-ignore-line
+        return \substr(\bin2hex(\random_bytes((int) \ceil($this->length / 2))), 0, $this->length);  // @phpstan-ignore-line argument.type
     }
 }

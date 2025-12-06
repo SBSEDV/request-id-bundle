@@ -19,7 +19,7 @@ class RequestIdProvider implements RequestIdProviderInterface
             $this->reset();
         }
 
-        return $this->requestId; // @phpstan-ignore-line
+        return $this->requestId; // @phpstan-ignore-line return.type
     }
 
     public function setRequestId(string $requestId): void
