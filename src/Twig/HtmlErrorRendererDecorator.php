@@ -20,10 +20,6 @@ class HtmlErrorRendererDecorator implements ErrorRendererInterface
 
         $html = $e->getAsString();
 
-        if (!\str_contains($html, '<body>')) {
-            return $e;
-        }
-
         $pos = \stripos($html, '</body>');
         if (false === $pos) {
             return $e;
